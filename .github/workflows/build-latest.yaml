@@ -6,8 +6,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "src/**"
+      - add-dockerbuild-for-openvpn
 
 jobs:
   containerization:
