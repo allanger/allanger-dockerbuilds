@@ -1,5 +1,5 @@
 ---
-name: "Build latest container"
+name: "Latest build"
 run-name: Build the latest docker image from the main branch
 
 on:
@@ -39,7 +39,7 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./src/openvpn
-          file: ./Dockerfile
+          file: ./src/openvpn/Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
