@@ -1,11 +1,10 @@
 ---
-name: "Latest build"
-run-name: Build the latest docker image from the main branch
+name: "Daily build"
+run-name: This build is triggered everyday against the master branch
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 1 * * *'
 
 jobs:
   containerization:
@@ -16,6 +15,9 @@ jobs:
 
       - name: Set action link variable
         run: echo "LINK=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_ENV
+      
+      - name: Set date variable
+        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
@@ -42,7 +44,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/allanger/openvpn:latest
+            ghcr.io/allanger/openvpn:${{ env.DATE }}
           labels: |
             action_id=${{ github.action }}
             action_link=${{ env.LINK }}
